@@ -13,20 +13,21 @@ branches:
 install:
   - bash scripts/install-utils.sh
 
-deploy-int:
-  provider: script
-  scripts:
-    - bash scripts/decrypt-key.sh $KEY_PASSWORD $PASS_KEY_PATH $KEY_PATH
-    - bash scripts/jwt-login.sh $INT_CLIENT_ID $KEY_PATH $INT_USER $INT_ALIAS $INT_INSTANCE_URL
-    - bash scripts/deploy-mdtapi.sh $INT_ALIAS
-  on:
-    branch: develop
+jobs:
+  deploy-int:
+    provider: script
+    scripts:
+      - bash scripts/decrypt-key.sh $KEY_PASSWORD $PASS_KEY_PATH $KEY_PATH
+      - bash scripts/jwt-login.sh $INT_CLIENT_ID $KEY_PATH $INT_USER $INT_ALIAS $INT_INSTANCE_URL
+      - bash scripts/deploy-mdtapi.sh $INT_ALIAS
+    on:
+      branch: develop
 
-validate-pr:
-  provider: script
-  scripts:
-    - bash scripts/decrypt-key.sh $KEY_PASSWORD $PASS_KEY_PATH $KEY_PATH
-    - bash scripts/jwt-login.sh $HUB_CLIENT_ID $KEY_PATH $HUB_USER $HUB_ALIAS $HUB_INSTANCE_URL
-    - bash scripts/validate.sh "PR$TRAVIS_PULL_REQUEST-$TRAVIS_PULL_REQUEST_BRANCH"
-  on:
-    branch: /^feature*/
+  validate-pr:
+    provider: script
+    scripts:
+      - bash scripts/decrypt-key.sh $KEY_PASSWORD $PASS_KEY_PATH $KEY_PATH
+      - bash scripts/jwt-login.sh $HUB_CLIENT_ID $KEY_PATH $HUB_USER $HUB_ALIAS $HUB_INSTANCE_URL
+      - bash scripts/validate.sh "PR$TRAVIS_PULL_REQUEST-$TRAVIS_PULL_REQUEST_BRANCH"
+    on:
+      branch: /^feature*/
