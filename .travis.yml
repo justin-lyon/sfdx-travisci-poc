@@ -6,17 +6,18 @@ cache: npm
 
 branches:
   only:
-    - master
+    # - master
     - develop
     - /^feature*/
 
-install:
-  - bash scripts/install-utils.sh
+# install:
+#   - bash scripts/install-utils.sh
 
 jobs:
   info:
     provider: script
     scripts:
+      - bash scripts/install-utils.sh
       - bash scripts/decrypt-key.sh $KEY_PASSWORD $PASS_KEY_PATH $KEY_PATH
       - bash scripts/jwt-login.sh $INT_CLIENT_ID $KEY_PATH $INT_USER $INT_ALIAS $INT_INSTANCE_URL
 
